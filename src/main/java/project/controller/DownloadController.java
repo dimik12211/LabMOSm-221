@@ -1,5 +1,7 @@
 package project.controller;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -10,9 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.zip.ZipFile;
 
 @Controller
@@ -38,22 +39,11 @@ public class DownloadController {
 
     @PostMapping(value = "/download")
     public ResponseEntity download(@RequestParam String uid) throws IOException {
-        File file = new File("D:\\ProjectIntellijIDEA\\lastKurs\\LabServApplication_1\\src\\main\\resources\\filesZIP\\", uid + ".zip");
-        
-        ZipFile zipFile = new ZipFile("D:\\ProjectIntellijIDEA\\lastKurs\\LabServApplication_1\\src\\main\\resources\\filesZIP\\" + uid + ".zip");
-
-        Enumeration<? extends ZipEntry> entries = zipFile.entries();
-        InputStream stream = null;
-        while(entries.hasMoreElements()){
-            ZipEntry entry = entries.nextElement();
-            stream = zipFile.getInputStream(entry);
-        }
-
-
+        Path path = Paths.get("D:\\ProjectIntellijIDEA\\lastKurs\\LabServApplication_1\\src\\main\\resources\\filesZIP\\" + uid + ".zip");
+        Resource resource = new UrlResource(path.toUri());
         return ResponseEntity
                 .ok()
                 .header("Content-Disposition", "attachment;filename=" + uid + ".zip")
-                .contentType(MediaType.valueOf("application/zip"))
-                .body("sdfgsgszf");
+                .body(resource);
     }
 }
