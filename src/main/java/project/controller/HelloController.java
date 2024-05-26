@@ -21,20 +21,26 @@ public class HelloController {
     @Autowired
     private DownloadController downloadController;
 
-    @GetMapping(value = "/hello")
-    public ModelAndView getDownload() { // добавить возможность выбора формата архива
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("hello.html");
-        return modelAndView;
-    }
 
-    @PostMapping(value = "/hello")
-    public ModelAndView postDownload(@RequestParam("file") MultipartFile[] file) throws IOException {
+    @PostMapping(value = "/postDownloadFile")
+    public ModelAndView postDownloadFile(@RequestParam("file") MultipartFile[] file) throws IOException {
+
         String uid = fileService.createZIP(file);
         downloadController.setUid(uid);
 
         ModelAndView modelAndView = new ModelAndView(new RedirectView("download"));
         modelAndView.addObject("uid", uid);
+
         return modelAndView;
     }
+
+    @GetMapping(value = "/getDownloadFile")
+
+    public ModelAndView getDownloadFile() {
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("hello.html");
+        return modelAndView;
+    }
+
 }
