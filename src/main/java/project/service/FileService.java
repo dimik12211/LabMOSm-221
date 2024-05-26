@@ -14,23 +14,6 @@ public class FileService {
 
     private Map<String, String> pathDownload = new HashMap<>();
 
-    public String createZIP(MultipartFile[] filesThis) throws IOException {
-        List<File> files=new ArrayList<>();
-        for (MultipartFile m:filesThis) {
-            File file = new File("D:\\ProjectIntellijIDEA\\lastKurs\\LabServApplication_1\\src\\main\\resources\\filesZIP", m.getOriginalFilename());
-            file.setWritable(true, false);
-            m.transferTo(file);
-            files.add(file);
-        }
-        String currentTimeUID = String.valueOf(System.currentTimeMillis());
-        File zip = new File("D:\\ProjectIntellijIDEA\\lastKurs\\LabServApplication_1\\src\\main\\resources\\filesZIP\\"+ currentTimeUID + ".zip");
-        zip.setWritable(true, false);
-        zip.createNewFile();
-        String fileFolders = zipFileFolders(files, zip);
-
-        return currentTimeUID; //возвращает Uid архива
-    }
-
     public String zipFileFolders(List<File> srcfile, File zipfile) {
         byte[] buf = new byte[1024];
         ZipOutputStream out = null;
@@ -60,7 +43,21 @@ public class FileService {
         return "Ошибка";
     }
 
-    /*public String createRAR() {
+    public String createZIP(MultipartFile[] filesThis) throws IOException {
+        List<File> files=new ArrayList<>();
+        for (MultipartFile m:filesThis) {
+            File file = new File("D:\\ProjectIntellijIDEA\\lastKurs\\LabServApplication_1\\src\\main\\resources\\filesZIP", m.getOriginalFilename());
+            file.setWritable(true, false);
+            m.transferTo(file);
+            files.add(file);
+        }
+        String currentTimeUID = String.valueOf(System.currentTimeMillis());
+        File zip = new File("D:\\ProjectIntellijIDEA\\lastKurs\\LabServApplication_1\\src\\main\\resources\\filesZIP\\"+ currentTimeUID + ".zip");
+        zip.setWritable(true, false);
+        zip.createNewFile();
+        String fileFolders = zipFileFolders(files, zip);
 
-    }*/
+        return currentTimeUID; //возвращает Uid архива
+    }
+
 }
