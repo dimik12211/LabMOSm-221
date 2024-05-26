@@ -19,8 +19,6 @@ import java.util.zip.ZipFile;
 @Controller
 public class DownloadController {
 
-    private String uid;
-
     public void setUid(String uid) {
         this.uid = uid;
     }
@@ -28,6 +26,8 @@ public class DownloadController {
     public String getUid() {
         return uid;
     }
+
+    private String uid;
 
     @PostMapping(value = "/download")
     public ResponseEntity download(@RequestParam String uid) throws IOException {
