@@ -21,20 +21,12 @@ public class DownloadController {
 
     private String uid;
 
-    public String getUid() {
-        return uid;
-    }
-
     public void setUid(String uid) {
         this.uid = uid;
     }
 
-    @GetMapping(value = "/download")
-    public ModelAndView download() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("download.html");
-        modelAndView.addObject("uid", uid);
-        return modelAndView;
+    public String getUid() {
+        return uid;
     }
 
     @PostMapping(value = "/download")
@@ -45,5 +37,13 @@ public class DownloadController {
                 .ok()
                 .header("Content-Disposition", "attachment;filename=" + uid + ".zip")
                 .body(resource);
+    }
+
+    @GetMapping(value = "/download")
+    public ModelAndView download() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("download.html");
+        modelAndView.addObject("uid", uid);
+        return modelAndView;
     }
 }
